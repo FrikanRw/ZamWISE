@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Report</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+  body {
+      padding 1%;
+      margin: 1%;
+  }
+    .table-bordered {
+        border:1px solid black
+      }
+       td{
+        border:1px solid black;
+        padding: 8px;
+}</style>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <script type="text/javascript" src="js/jQuery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="js/printReport.js"></script>
+  <script type="text/javascript" src="js/tableExport/jquery.base64.js"></script>
+  <script type="text/javascript" src="js/tableExport/tableExport.js"></script>
+  <script type="text/javascript" src="js/tableExport/jspdf/libs/sprintf.js"></script>
+  <script type="text/javascript" src="js/tableExport/jspdf/jspdf.js"></script>
+  <script type="text/javascript" src="js/tableExport/jspdf/jspdf.min.js"></script>
+  <script type="text/javascript" src="js/tableExport/jspdf/libs/base64.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/jspdf.plugin.autotable.js"></script>
+
+
+
+</head>
+<body>
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div>
+  <h2 style="posistion: absolute;">Project Report</h2>
+</div>
+
+  <div id="projectReport">
+    <div class="table-responsive">
+      <table id="tbl" class="table table-hover">
+        <thead>
+          <tr>
+            <th style="background-color: #928989; color; white;padding: 8px;columnWidth:150px">General project information</th>
+            <th style="background-color: #928989; color; white;"></th>
+            </tr>
+        </thead>
+        <tbody>
+  				<tr>
+  		 			<td>Project Title</td><!--Column C in excel, project_na in db-->
+  					<td id="lblProjectname"></td>
+  				</tr>
+  				<tr >
+					  <td>Participating countries</td><!--Column E in excel, country in db -->
+  					<td id="lblcountries"></td>
+  				</tr>
+  		    <tr >
+  		      <td>Project Objectives</td><!--Column D in excel,project_ty in db -->
+  		      <td id="lblObjectives"></td>
+  		    </tr>
+          <tr>
+            <td>Project Descritpion</td><!--Column P in excel,descp in db -->
+            <td id="lblDescritpion">None</td>
+          </tr>
+          <tr>
+            <td>Status</td><!--Column N in excel,status in db -->
+            <td id="lblStatus"></td>
+          </tr>
+          <tr>
+            <td>Capital Cost (million US$)</td><!--Column l in excel,capital in db -->
+            <td id="lblCapital"></td>
+          </tr>
+          <tr>
+            <td>O & M Cost (million US$)</td><!--Column M in excel,fixedo_m in db -->
+            <td id="lblO_MCost"></td>
+          </tr>
+          <td>Execution Period</td><!--Column O in excel,date in db -->
+          <td id="lblExecution"></td>
+        </tr>
+        <tr>
+          <td>Contact details</td><!--Column K in excel,contactde in db -->
+          <td id="lblContact"></td>
+        </tr>
+        <tr>
+          <td>Project Sponsors</td><!--Column J in excel,contactde in db -->
+          <td id="lblsponsor"></td>
+        </tr>
+        <tr>
+          <td>Financier</td><!--empty no data available-->
+          <td id="lblFinancier">empty (no data available)</td>
+        </tr>
+        <tr>
+          <td>Project Documentation</td><!--empty no data available-->
+          <td id="lbldocumentation">empty (no data available)</td>
+        </tr>
+      </tbody>
+     </table>
+   </div>
+ </div>
+  <button href="#" style="display: inline;" onClick ="$('#projectReport').tableExport({type:'excel',tableName:'Project Report',escape:'false'});"><img src='http://demos.w3lessons.info/assets/images/icons/xls.png' width="24"/>Download XLS</button>
+  <button onclick="printReportpdf();"><img src='http://demos.w3lessons.info/assets/images/icons/pdf.png' width="24"/>Download PDF</button>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

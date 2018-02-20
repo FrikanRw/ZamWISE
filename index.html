@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="js/leaflet.css" />
+  <link rel="stylesheet" href="js/leaflet-search.css" />
+  <link rel="stylesheet" href="js/leaflet-messagebox.css" />
+
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <h1 style="text-align: center;">Welcome to ZAMWIS report tool</h1>
+
+  <!--Map-->
+  <div class="main-container" >
+  <div id="map"></div>
+  <!--Filters -->
+  <div class="text-container">
+      <h2 style="text-decoration: underline">Introduction</h2>
+    <p>This tool provides reports on ZAMWIS projects.</p>
+      <p>The data provided is sourced from riperian states and may contain empty fields.</p>
+    <label>Search Projects:</label>
+    <input type="text" id="search" placeholder="Type to search..." />
+  </div>
+  </div>
+  <!--Table output-->
+  <table id="table" class="u-full-width">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Country</th>
+        <th>Status</th>
+        <th>Owner</th>
+        <th> Capital Cost</th>
+      </tr>
+    </thead>
+    <tbody id="TableBody">
+      <tr>
+        <td><label id="lblProjectname">Projects being loaded</label></td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+<script type="text/javascript" src="js/jQuery/jquery-3.2.1.min.js"></script>
+<script src="js/leaflet.js"></script>
+<script src="js/spin/dist/spin.min.js" charset="utf-8"></script>
+<script src="js/leaflet/leaflet.spin.js"></script>
+<script src="js/leaflet/leaflet.spin.min.js"></script>
+<script src="js/webmap.js"></script>
+<script src="js/leaflet-search.js"></script>
+<script src="js/leaflet-messagebox.js"></script>
+
+</html>

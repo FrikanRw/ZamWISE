@@ -1,0 +1,80 @@
+body, html {
+  padding 1%;
+  margin: 1%;
+  height: 99%;
+  width: 100vw;
+}
+
+#map {
+  height: 95%;
+  width: 40vw;
+  border: black 1px solid;
+    float: left;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+  .
+}
+.main-container{
+  height: 60%;
+}
+.text-container {
+  width: 40vw;
+  margin: 10px;
+  float: left;
+}
+
+thead, tbody, tr, th, td {
+  display: block;
+}
+
+thead tr {
+  /* fallback */
+  width: 97%;
+  /* minus scroll bar width */
+  width: -webkit-calc(100% - 16px);
+  width: -moz-calc(100% - 16px);
+  width: calc(100% - 16px);
+}
+
+tr:after {
+  /* clearing float */
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+tbody {
+  height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+tbody td, thead th {
+  width: 14%;
+  /* 19% is less than (100% / 5 cols) = 20% */
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 20px;
+}
+
+.selected {
+  background-color: blue;
+  color: #FFF;
+}
+
+tbody>tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+tbody>tr:nth-child(even) {
+  background-color: #bdbdbd;
+}
+
+tbody>tr:hover {
+  background-color: #787878;
+}
