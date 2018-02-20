@@ -41,7 +41,7 @@ $( document ).ready(function() {
   document.getElementById("lblProjectname").innerHTML = localStorage.getItem("ProjectName");
   document.getElementById("lblcountries").innerHTML = localStorage.getItem("ParticipatingCountries");
   document.getElementById("lblObjectives").innerHTML = localStorage.getItem("ProjectObjectives");
-  document.getElementById("lblDescritpion").innerHTML = localStorage.getItem("ProjectDescritpion");
+  document.getElementById("lblDes").innerHTML = localStorage.getItem("ProjectDescritpion");
   document.getElementById("lblStatus").innerHTML = localStorage.getItem("Status");
   document.getElementById("lblCapital").innerHTML = localStorage.getItem("CapitalCost");
   document.getElementById("lblO_MCost").innerHTML = localStorage.getItem("O_MCost");

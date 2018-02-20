@@ -22,9 +22,10 @@ var options = {
 var Zoomoptions = {
   timeout: 5000
 }
+var selectedProject;
 
 
-map = new L.Map(document.getElementById('map')).setView([-15.7701, 26.02003], 3);
+map = new L.Map(document.getElementById('map'), {preferCanvas:true}).setView([-15.7701, 26.02003], 3);
 map.spin(true, {
   lines: 13,
   length: 40
@@ -32,6 +33,8 @@ map.spin(true, {
 
 var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
+  renderer: L.canvas(),
+  crossOrigin: true,
 
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
@@ -41,7 +44,7 @@ var Esri_WorldImagery = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/sat
   attribution: 'Tiles Source: <a href="https://www.mapbox.com/">Mapbox&copy</a>'
 }).addTo(map);
 
-
+console.log(map)
 //Load Projects GeoJson from Geoserver
 var geoJsonUrl = "http://frikancarto.co.za:8080/geoserver/ZAMWIS/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ZAMWIS:invent112017&outputFormat=text%2Fjavascript&format_options=callback:handleJson"
 var projects = [];
@@ -54,32 +57,33 @@ $.ajax({
   success: handleJson
 });
 var counter = 0
-
+var projects_layer
 function handleJson(data) {
-
-  L.geoJson(data, {
+  
+    projects_layer = L.geoJson(data, {
 
     onEachFeature: function(feature, projects_layer) {
 
       projects_layer.bindPopup('<b><center>PROJECT INFORMATION</b>' + '<center> Project Name:' + feature.properties.project_na + '<center> Project Type: ' + feature.properties.project_ty + '<center> Country : ' + feature.properties.country);
       //Pushes everything into JsonArray
+
       projects.push({
 
         "Internalid": counter,
         "ProjectName": feature.properties.project_na,
         "ParticipatingCountries": feature.properties.country,
         "ProjectObjectives": feature.properties.project_ty,
-        "ProjectDescritpion": feature.properties.descp,
+        "ProjectDescription": feature.properties.descp,
         "Status": feature.properties.status,
         "CapitalCost": feature.properties.capital,
         "O_MCost": feature.properties.fixedo_m,
         "ExecutionPeriod": feature.properties.date,
-        "Contactdetails": feature.properties.contactde,
+        "ContactDetails": feature.properties.contactde,
         "ProjectSponsors": feature.properties.owner,
         "ProjectDocumentation": feature.properties.source,
         "lat": feature.geometry.coordinates[1],
         "lon": feature.geometry.coordinates[0],
-
+        
       });
       counter = counter + 1;
     },
@@ -102,21 +106,54 @@ function handleJson(data) {
   for (var i = 0; i < projects.length; i++) {
     listItems += "<option value='" + projects[i].Internalid + ". " + projects[i].ProjectName + "'>" + projects[i].Internalid + ". " + projects[i].ProjectName + "</option>";
   }
-  console.log(projects)
   $("#searchID").html(listItems);
   populateTable(projects);
   map.spin(false);
-};
+}
+
 //populates table from projects JsonArray
 function populateTable(array) {
-  let body = document.getElementById('TableBody')[0];
-  let rowItems = null;
+  var rowItems = null;
 
   for (row = 0; row < array.length; row++) {
     rowItems +=
       "<tr id=" + array[row].Internalid + "><td> " + array[row].ProjectName + "</td><td> " + array[row].ProjectObjectives + "</td><td> " + array[row].ParticipatingCountries + "</td><td> " + array[row].Status + "</td><td> " + array[row].ProjectSponsors + "</td><td> $ " + array[row].CapitalCost + "</td>"
   }
   $("#TableBody").html(rowItems);
+  /* Get all rows from your 'table' but not the first one
+    * that includes headers. */
+  var rows = $("#table tbody tr");
+  /* Create 'click' event handler for rows */
+  rows.on('click', function(e) {
+    
+    /* Get current row */
+    var row = $(this);
+    selectedProject=row.attr('id');
+
+    searchID(selectedProject);
+    /* Check if 'Ctrl', 'cmd' or 'Shift' keyboard key was pressed
+     * 'Ctrl' => is represented by 'e.ctrlKey' or 'e.metaKey'
+     * 'Shift' => is represented by 'e.shiftKey' */
+    if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
+      /* If pressed highlight the other row that was clicked */
+      row.addClass('selected');
+    } else {
+      /* Otherwise just highlight one row and clean others */
+      rows.removeClass('selected');
+      row.addClass('selected');
+    }
+    
+  });
+  
+  /* This 'event' is used just to avoid that the table text
+   * gets selected (just for styling).
+   * For example, when pressing 'Shift' keyboard key and clicking
+   * (without this 'event') the text of the 'table' will be selected.
+   * You can remove it if you want, I just tested this in
+   * Chrome v30.0.1599.69 */
+  $(document).bind('selectstart dragstart', function(e) {
+    e.preventDefault(); return false;
+  });
 
 }
 //Search Function for input
@@ -131,51 +168,49 @@ $("#search").keyup(function(){
     });
 });
 
-//Make project selecteable
-$("#table tbody tr").click(function(){
-   $(this).addClass('selected').siblings().removeClass('selected');
-   var value=$(this).find('td:first').html();
-   alert(value);
-});
 
 
 /*
 search for project based on ID
+*/
+var mapImage;
+function searchID(id) {
 
-function searchID() {
-    id = document.getElementById('searchID').value;
-    id = id.split(".");
-    //name = document.getElementById('searchID').value;
+   leafletImage(map, function(err, canvas) {
+    // now you have canvas
+    // example thing to do with that canvas:
+    mapImage = canvas.toDataURL();
+   
+
+  });
+  id = parseInt(id);
     for (var i = 0; i < projects.length; i++) {
-        if (projects[i].Internalid == id[0]) {
+        if (projects[i].Internalid === id) {
             name= projects[i].ProjectName;
             type = projects[i].ProjectObjectives;
-            desc = projects[i].ProjectDescritpion;
+            desc = projects[i].ProjectDescription;
             status = projects[i].Status;
             capital = projects[i].CapitalCost;
             omcost = projects[i].O_MCost;
             exceperiod = projects[i].ExecutionPeriod;
-            contactde = projects[i].Contactdetails;
+            contactde = projects[i].ContactDetails;
             country = projects[i].ParticipatingCountries;
             owner = projects[i].ProjectSponsors;
             ProjectDocumentation = projects[i].ProjectDocumentation;
             if (projects[i].lat !== null) {
                 var cLatLon = L.latLng(projects[i].lat, projects[i].lon);
+              projects_layer.fire('click', {latlng:cLatLon});
                 map.setView(cLatLon, 12)
             } else {
                 var box = L.control.messagebox(options).addTo(map);
             }
         }
     }
-    document.getElementById('lblInternalLabel').innerHTML = id[0];
-    document.getElementById('lblProjectname').innerHTML = name;
-    document.getElementById('lblProjecttype').innerHTML = type;
-    document.getElementById('lblProjectowner').innerHTML = country;
-    localStorage.setItem("Internalid", id[0]);
+    localStorage.setItem("Internalid", id);
     localStorage.setItem("ProjectName", name);
     localStorage.setItem("ParticipatingCountries", country);
     localStorage.setItem("ProjectObjectives", type);
-    localStorage.setItem("ProjectDescritpion", desc);
+    localStorage.setItem("ProjectDescription", desc);
     localStorage.setItem("Status", status);
     localStorage.setItem("CapitalCost", capital);
     localStorage.setItem("O_MCost", omcost);
@@ -183,6 +218,7 @@ function searchID() {
     localStorage.setItem("Contactdetails", country);
     localStorage.setItem("Sponsors", owner);
     localStorage.setItem("ProjectDocumentation", ProjectDocumentation);
+    localStorage.setItem("MapImg", mapImage);
     document.getElementById("print").disabled = false;
-};
-*/
+}
+

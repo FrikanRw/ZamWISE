@@ -42,9 +42,14 @@
   <div class="text-container">
       <h2 style="text-decoration: underline">Introduction</h2>
     <p>This tool provides reports on ZAMWIS projects.</p>
-      <p>The data provided is sourced from riperian states and may contain empty fields.</p>
+    <p>The data provided is sourced from riperian states and may contain empty fields.</p>
+    <p>Search projects on the provided fields and select the  desired one by clicking on the row.
+      If you would like to see the report click the  View report button.</p>
     <label>Search Projects:</label>
     <input type="text" id="search" placeholder="Type to search..." />
+    <form style="display: inline;" action="http://vi.frikancarto.co.za/print.html">
+      <input type="submit" id="print" value="View Report" disabled/>
+    </form>
   </div>
   </div>
   <!--Table output-->
@@ -56,7 +61,7 @@
         <th>Country</th>
         <th>Status</th>
         <th>Owner</th>
-        <th> Capital Cost</th>
+        <th>Capital Cost</th>
       </tr>
     </thead>
     <tbody id="TableBody">
@@ -73,8 +78,7 @@
 <script src="js/spin/dist/spin.min.js" charset="utf-8"></script>
 <script src="js/leaflet/leaflet.spin.js"></script>
 <script src="js/leaflet/leaflet.spin.min.js"></script>
+<script src="js/leaflet-image/leaflet-image.js"></script>
 <script src="js/webmap.js"></script>
-<script src="js/leaflet-search.js"></script>
-<script src="js/leaflet-messagebox.js"></script>
 
 </html>
